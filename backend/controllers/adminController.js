@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import AppointmentModel from "../models/AppointmentModel";
-// import doctorModel from "../models/doctorModel";
+import AppointmentModel from "../models/AppointmentModel.js";
+import doctorModel from "../models/doctorModel.js";
 import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
-// // import UserModel from "../models/UserModel";
+import UserModel from "../models/UserModel.js";
 import validator from "validator";
 
 
@@ -15,10 +15,14 @@ const loginAdmin = async (req, res) => {
         const{ email, password} = req.body
         
         if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign(email + password, process.env.JWT_SECRET)
+            const token = jwt.sign(
+                {email: process.env.ADMIN_EMAIL, role: 'admin' }, 
+                process.env.JWT_SECRET, 
+                { expiresIn: '1h' }
+            );
             res.json({ success: true, token })
         }else {
-            res.json({sucees: false, message: "Invalid credentials"})
+            res.json({success: false, message: "Invalid credentials"})
         }
 
     }catch(error) {
@@ -63,6 +67,12 @@ const addDoctor = async (req, res) => {
         if (!name || !email || !password || !speciality || !degree || !experience || !about || !fees || !address) {
             return res.json({ success: false, message: "Missing Details" })
         }
+        
+        // Checking for image availability
+
+        if(!imageFile){
+              return res.json({success: false, message: "Image file is required"})
+        }
 
          // validating email format by use of the validator library 
          if (!validator.isEmail(email)) {
@@ -75,7 +85,7 @@ const addDoctor = async (req, res) => {
         }
         
         // hashing user password
-       const saltRounds = 10; // the more no. round the more time it will take
+       const saltRounds = 10; 
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         // upload image to cloudinary
@@ -88,6 +98,7 @@ const addDoctor = async (req, res) => {
             image: imageUrl,
             password: hashedPassword,
             speciality,
+            experience,
             degree,
             about,
             fees,
@@ -111,7 +122,7 @@ const addDoctor = async (req, res) => {
 const allDoctors = async (req, res) => {
     try {
         //retrieve all doctors but exclude the password
-        const doctors = await doctorMdel.find({}).select('-password')
+        const doctors = await doctorModel.find({}).select('-password')
         res.json({ success: true, doctors})
     }catch(error) {
         console.log(error)
@@ -123,7 +134,7 @@ const allDoctors = async (req, res) => {
 const AdminDashboard = async (req, res) =>{
     try {
         const doctors = await doctorModel.find({})
-        const users = await userModel.find({})
+        const users = await UserModel.find({})
         const appointments = await AppointmentModel.find({})
 
         const dashData = {

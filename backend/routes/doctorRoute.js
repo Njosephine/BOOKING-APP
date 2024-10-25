@@ -6,7 +6,7 @@ import authDoctor from "../middleware/authDoctor.js";
 const doctorRouter = express.Router();
 
 doctorRouter.post("/login", loginDoctor);
-doctorRouter.get("/appointment", authDoctor, appointmentsDoctor);
+doctorRouter.get("/appointments", authDoctor, appointmentsDoctor);
 doctorRouter.post("/cancel-appointment", authDoctor, appointmentCancel);
 doctorRouter.post("/complete-appointment", authDoctor, appointmentComplete );
 doctorRouter.post("/change-availability", authDoctor, changeAvailablity);

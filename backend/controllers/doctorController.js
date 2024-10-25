@@ -8,23 +8,28 @@ import AppointmentModel from "../models/AppointmentModel.js";
 const loginDoctor = async (req, res) => {
     try{
         const{ email, password }= req.body
+
+        //finding the doctor by their email
         const user = await doctorModel.findOne({ email})
 
+        //checking for the user existence in the database
         if(!user) {
             return res.json({success: false, message: "Invalid Credentials"})
         }
+         //Password comparison with that in the database
+        const passwordMatch = await bcrypt.compare(password, user.password)
 
-        const isMatch = await bcrypt.compare(password, user.password)
+        //generation of a jsonweb token if passwordMatch is true
 
-        if(isMatch) {
-            const token = jwt.sign( { id: user._id}, process.env.JWT_SECRET)
-            res.json({ success: true, token})
+        if(passwordMatch) {
+            const token = jwt.sign( { id: user._id}, process.env.JWT_SECRET, { expiresIn: '1h' })
+            res.status(200).json({ success: true, token})
         }else{
-            res.json({ success: false, message: "Invalid Credentials"})
+            res.status(401).json({ success: false, message: "Invalid Credentials"})
         }
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message})
+        res.status(500).json({ success: false, message: "Server error, please try again later"});
     }
 }
 // API to get doctor appointments for doctor panel
@@ -66,9 +71,9 @@ const appointmentCancel = async (req, res) => {
     
             const { docId, appointmentId } = req.body
     
-            const appointmentData = await appointmentModel.findById(appointmentId)
+            const appointmentData = await AppointmentModel.findById(appointmentId)
             if (appointmentData && appointmentData.docId === docId) {
-                await appointmentModel.findByIdAndUpdate(appointmentId, { isCompleted: true })
+                await AppointmentModel.findByIdAndUpdate(appointmentId, { isCompleted: true })
                 return res.json({ success: true, message: 'Appointment Completed' })
             }
     
@@ -111,7 +116,7 @@ const appointmentCancel = async (req, res) => {
         }
     }
 
-    // / API to get doctor profile for  Doctor Panel
+    // API to get doctor profile for  Doctor Panel
 const doctorProfile = async (req, res) => {
     try {
 
@@ -126,13 +131,13 @@ const doctorProfile = async (req, res) => {
     }
 }
 
-// / API to update doctor profile data from  Doctor Panel
+//API to update doctor profile data from  Doctor Panel
 const updateDoctorProfile = async (req, res) => {
     try {
 
-        const { docId, fees, address, available } = req.body
+        const { docId, fees, address, available ,about, name, degree,experience} = req.body
 
-        await doctorModel.findByIdAndUpdate(docId, { fees, address, available })
+        await doctorModel.findByIdAndUpdate(docId, { fees, address, available,about, name, degree,experience })
 
         res.json({ success: true, message: 'Profile Updated' })
 
@@ -148,7 +153,7 @@ const doctorDashboard = async (req, res) => {
 
         const { docId } = req.body
 
-        const appointments = await appointmentModel.find({ docId })
+        const appointments = await AppointmentModel.find({ docId })
 
         let earnings = 0
 

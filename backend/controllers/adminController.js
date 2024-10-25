@@ -32,6 +32,8 @@ const loginAdmin = async (req, res) => {
 }
 
 //API to get all appointment lists
+
+
 // Logic for fetching and retrning the appointment data for the admin
 const AppointmentsAdmin = async (req, res) => {
     try {
@@ -85,7 +87,7 @@ const addDoctor = async (req, res) => {
         }
         
         // hashing user password
-       const saltRounds = 10; 
+        const saltRounds = 10; 
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         // upload image to cloudinary
@@ -121,7 +123,7 @@ const addDoctor = async (req, res) => {
 
 const allDoctors = async (req, res) => {
     try {
-        //retrieve all doctors but exclude the password
+        //retrieve all fields for doctors but exclude the password
         const doctors = await doctorModel.find({}).select('-password')
         res.json({ success: true, doctors})
     }catch(error) {

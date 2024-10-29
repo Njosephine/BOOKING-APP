@@ -20,7 +20,7 @@ connectCloudinary()
 
 const SwaggerOptions = {
   swaggerDefinition: {
-    openai : '3.0.0',
+    openapi : '3.0.0',
     info: {
       title: 'MedicHealthCare Center',
       version: '1.0.0',
@@ -28,7 +28,7 @@ const SwaggerOptions = {
     },
     servers: [
       {
-         url: 'http//localhost:${port}/api',
+         url: `http://localhost:${port}/api`,
       }
     ],
   },

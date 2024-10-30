@@ -20,14 +20,14 @@ const loginAdmin = async (req, res) => {
                 process.env.JWT_SECRET, 
                 { expiresIn: '1h' }
             );
-            res.json({ success: true, token })
+            res.status(200).json({ success: true, token })
         }else {
-            res.json({success: false, message: "Invalid credentials"})
+            res.status(401).json({success: false, message: "Invalid credentials"})
         }
 
     }catch(error) {
         console.log(error)
-        res.json({ success: false, message: error.messaage})
+        res.status(500).json({ success: false, message: error.messaage})
     }
 }
 

@@ -10,40 +10,38 @@ import { v2 as cloudinary} from 'cloudinary';
 //API to register a user
 
 const registerUser = async (req, res) => {
-    try{
-        const {name, email, password} = req.body;
+    try {
+        const { name, email, password } = req.body;
 
-        //checking for all data to register the user
+        // Check for missing details
         if (!name || !email || !password) {
-            return res.json({ success: false, message: 'Missing Details'})
+            console.error('Registration failed: Missing Details');
+            return res.json({ success: false, message: 'Missing Details' });
         }
 
-        //validating an email format
-        if(!validator.isEmail(email)) {
-            return res.json({ success: false, message: 'Please enter a valid email'})
+        // Validate email format
+        if (!validator.isEmail(email)) {
+            console.error('Registration failed: Invalid email format');
+            return res.json({ success: false, message: 'Please enter a valid email' });
         }
 
-    //Hashing a password
-       const saltRounds = 10; 
-       const hashedPassword = await bcrypt.hash(password, saltRounds);
+        // Hashing password and saving user
+        const saltRounds = 10; 
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const userData = { name, email, password: hashedPassword };
 
-       const userData = {
-          name,
-          email,
-          password: hashedPassword
-       }
+        const newUser = new UserModel(userData);
+        const user = await newUser.save();
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-       const newUser = new UserModel(userData)
-       const user = await newUser.save()
-       const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET)
-
-       res.json({ success: true, token})
-
-    }catch(error){
-        console.log(error)
-        res.json({ success: false, message: error.message})
+        console.log('User registered successfully:', user);
+        res.json({ success: true, token });
+    } catch (error) {
+        console.error('Registration error:', error.message);
+        res.json({ success: false, message: error.message });
     }
-}
+};
+
 
 
 // / /API to login user
@@ -182,7 +180,7 @@ const cancelAppointment = async (req, res) => {
             return res.json({ success: false, message: 'Unauthorized action' })
         }
 
-        await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
+        await AppointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
 
         // releasing doctor slot 
         const { docId, slotDate, slotTime } = appointmentData

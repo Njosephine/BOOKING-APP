@@ -1,5 +1,5 @@
 import express from 'express';
-import{loginAdmin, AppointmentsAdmin, AppointmentCancel,  addDoctor, allDoctors, AdminDashboard} from '../controllers/adminController.js';
+import{loginAdmin, AppointmentsAdmin, AppointmentCancel,  addDoctor, allDoctors, AdminDashboard, deleteDoctor} from '../controllers/adminController.js';
 import upload from '../middleware/multer.js';
 import authAdmin from '../middleware/authAdmin.js';
 import { changeAvailablity } from '../controllers/doctorController.js';
@@ -198,5 +198,8 @@ adminRouter.get("/all-doctors", authAdmin, allDoctors)
  *         description: Unauthorized access.
  */
 adminRouter.get("/dashboard", authAdmin, AdminDashboard)
+
+
+adminRouter.delete("/delete-doctor", authAdmin, deleteDoctor)
 
 export default adminRouter;

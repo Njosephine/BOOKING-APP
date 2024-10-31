@@ -60,6 +60,18 @@ const AppointmentCancel = async (req, res) => {
     }
 }
 
+//API for deleting doctors
+const deleteDoctor = async (req, res) => {
+    try {
+        const{ doctorId } = req.params
+        await doctorModel.findByIdAndDelete(doctorId)
+        res.json({success: true, message: 'Doctor deleted successfully'})
+    }catch (error) {
+        console.log(error)
+        res.json({success: false, message: error.message})
+    }
+}
+
 //API for adding Doctors
 const addDoctor = async (req, res) => {
     try{
@@ -164,6 +176,7 @@ export{
     AppointmentCancel,
     addDoctor,
     allDoctors,
-    AdminDashboard
+    AdminDashboard,
+    deleteDoctor
 }
 

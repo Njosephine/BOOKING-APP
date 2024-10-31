@@ -82,7 +82,7 @@ userRouter.post("/login", loginUser)
  *       401:
  *         description: Unauthorized action
  */
-userRouter.get("/get-pofile", authUser, getProfile)
+userRouter.get("/get-profile", authUser, getProfile)
 
 /**
  * @swagger

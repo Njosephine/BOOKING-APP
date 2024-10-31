@@ -74,6 +74,7 @@ const loginUser = async (req, res) => {
 
 const getProfile = async (req, res) =>{
     try{
+        const{ userId } = req.params
         const userData = await UserModel.findById(userId).select('-password')
         res.json({ success: true, userData})
     }catch(error){
@@ -173,7 +174,7 @@ const cancelAppointment = async (req, res) => {
     try {
 
         const { userId, appointmentId } = req.body
-        const appointmentData = await appointmentModel.findById(appointmentId)
+        const appointmentData = await AppointmentModel.findById(appointmentId)
 
         // verify appointment user 
         if (appointmentData.userId !== userId) {
@@ -206,7 +207,7 @@ const listAppointment = async (req, res) => {
     try {
 
         const { userId } = req.body
-        const appointments = await appointmentModel.find({ userId })
+        const appointments = await AppointmentModel.find({ userId })
 
         res.json({ success: true, appointments })
 

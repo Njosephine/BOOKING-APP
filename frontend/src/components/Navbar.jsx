@@ -36,6 +36,10 @@ const Navbar = () => {
           <li className='py-1'>CONTACT</li>
           <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
         </NavLink>
+
+        <button onClick={() => window.location.href = 'http://localhost:5174/'}
+        className='bg-primary text-white px-4 py-2 rounded-full' > ADMIN </button>
+      
       </ul>
 
       <div className='flex items-center gap-4 '>

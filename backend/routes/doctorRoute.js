@@ -181,7 +181,7 @@ doctorRouter.post("/change-availability", authDoctor, changeAvailablity);
  *       500:
  *         description: Server error
  */
-doctorRouter.get("/list", authDoctor, doctorList);
+doctorRouter.get("/list", doctorList);
 
 /**
  * @swagger

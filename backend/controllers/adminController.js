@@ -62,8 +62,10 @@ const AppointmentCancel = async (req, res) => {
 
 //API for deleting doctors
 const deleteDoctor = async (req, res) => {
+    
     try {
-        const{ doctorId } = req.params
+        const{ doctorId } = req.body
+        
         await doctorModel.findByIdAndDelete(doctorId)
         res.json({success: true, message: 'Doctor deleted successfully'})
     }catch (error) {

@@ -4,47 +4,55 @@ import validator from "validator";
 import UserModel from "../models/UserModel.js";
 import doctorModel from "../models/doctorModel.js";
 import AppointmentModel from "../models/AppointmentModel.js";
-import { v2 as cloudinary} from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary'
 
 
-//API to register a user
 
+
+// API to register user
 const registerUser = async (req, res) => {
+
     try {
         const { name, email, password } = req.body;
 
-        // Check for missing details
+        // checking for all data to register user
         if (!name || !email || !password) {
-            console.error('Registration failed: Missing Details');
-            return res.json({ success: false, message: 'Missing Details' });
+            return res.json({ success: false, message: 'Missing Details' })
         }
 
-        // Validate email format
+        // validating email format
         if (!validator.isEmail(email)) {
-            console.error('Registration failed: Invalid email format');
-            return res.json({ success: false, message: 'Please enter a valid email' });
+            return res.json({ success: false, message: "Please enter a valid email" })
         }
 
-        // Hashing password and saving user
-        const saltRounds = 10; 
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        const userData = { name, email, password: hashedPassword };
+        // validating strong password
+        if (password.length < 8) {
+            return res.json({ success: false, message: "Please enter a strong password" })
+        }
 
-        const newUser = new UserModel(userData);
-        const user = await newUser.save();
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+       // hashing user password
+       const saltRounds = 10; 
+       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        console.log('User registered successfully:', user);
-        res.json({ success: true, token });
+        const userData = {
+            name,
+            email,
+            password: hashedPassword,
+        }
+
+        const newUser = new UserModel(userData)
+        const user = await newUser.save()
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+
+        res.json({ success: true, token })
+
     } catch (error) {
-        console.error('Registration error:', error.message);
-        res.json({ success: false, message: error.message });
+        console.log(error)
+        res.json({ success: false, message: error.message })
     }
-};
+}
 
-
-
-// / /API to login user
+// API to login user
 const loginUser = async (req, res) => {
 
     try {
@@ -70,16 +78,18 @@ const loginUser = async (req, res) => {
     }
 }
 
-//API to get user profile data
+// API to get user profile data
+const getProfile = async (req, res) => {
 
-const getProfile = async (req, res) =>{
-    try{
-        const{ userId } = req.params
+    try {
+        const { userId } = req.body
         const userData = await UserModel.findById(userId).select('-password')
-        res.json({ success: true, userData})
-    }catch(error){
+
+        res.json({ success: true, userData })
+
+    } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message})
+        res.json({ success: false, message: error.message })
     }
 }
 
@@ -158,15 +168,17 @@ const bookAppointment = async (req, res) => {
 
         const newAppointment = new AppointmentModel(appointmentData)
         await newAppointment.save()
-    // save new slots data in docData
-    await doctorModel.findByIdAndUpdate(docId, { slots_booked })
 
-    res.json({ success: true, message: 'Appointment Booked' })
+        // save new slots data in docData
+        await doctorModel.findByIdAndUpdate(docId, { slots_booked })
 
-} catch (error) {
-    console.log(error)
-    res.json({ success: false, message: error.message })
-}
+        res.json({ success: true, message: 'Appointment Booked' })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+
 }
 
 // API to cancel appointment
@@ -187,7 +199,6 @@ const cancelAppointment = async (req, res) => {
         const { docId, slotDate, slotTime } = appointmentData
 
         const doctorData = await doctorModel.findById(docId)
-
         let slots_booked = doctorData.slots_booked
 
         slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime)
@@ -202,7 +213,7 @@ const cancelAppointment = async (req, res) => {
     }
 }
 
-// / API to get user appointments for frontend my-appointments page
+// API to get user appointments for frontend my-appointments page
 const listAppointment = async (req, res) => {
     try {
 
@@ -218,13 +229,17 @@ const listAppointment = async (req, res) => {
 }
 
 
+
+
+
+
 export {
-    registerUser,
     loginUser,
+    registerUser,
     getProfile,
     updateProfile,
     bookAppointment,
+    listAppointment,
     cancelAppointment,
-    listAppointment 
-    
+   
 }

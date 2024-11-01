@@ -32,6 +32,24 @@ const AdminContextProvider = (props) => {
         }
 
     }
+    //Fuction to delete a doctor
+    const deleteDoctor = async (doctorId) => {
+        try {
+            const { data } = await axios.delete(backendUrl + '/api/admin/delete-doctor', { data: { doctorId } }, { headers: { aToken } });
+    
+            if (data.success) {
+                // Update the doctors state by filtering out the deleted doctor
+                setDoctors((prevDoctors) => prevDoctors.filter((doctor) => doctor._id !== doctorId));
+                toast.success(data.message); 
+            } else {
+                toast.error(data.message); 
+            }
+        } catch (error) {
+            toast.error(error.message); 
+        }
+    };
+    
+
 
     // Function to change doctor availablity using API
     const changeAvailability = async (docId) => {
@@ -119,6 +137,7 @@ const AdminContextProvider = (props) => {
         appointments,
         getAllAppointments,
         getDashData,
+        deleteDoctor,
         cancelAppointment,
         dashData
     }

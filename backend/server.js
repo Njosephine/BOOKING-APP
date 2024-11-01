@@ -8,6 +8,7 @@ import doctorRouter from "./routes/doctorRoute.js"
 import adminRouter from "./routes/adminRoute.js"
 import swaggerJSDoc from "swagger-jsdoc"
 import swaggerUi from "swagger-ui-express"
+import contactRouter from "./routes/contactRoute.js"
 
 // app config
 const app = express()
@@ -46,6 +47,7 @@ app.use(cors())
 app.use("/api/user", userRouter)
 app.use("/api/admin", adminRouter)
 app.use("/api/doctor", doctorRouter)
+app.use("/api/contact", contactRouter)
 
 app.get("/", (req, res) => {
   res.send("API Working")

@@ -16,9 +16,7 @@ const AppContextProvider = (props) => {
     // Getting Doctors using API
     const getDoctosData = async () => {
         try {
-            const { data } = await axios.get(`${backendUrl}/api/doctor/list`, {
-                headers: { dtoken: token } // Sending the token as dtoken
-            });
+            const { data } = await axios.get(`${backendUrl}/api/doctor/list`);
             if (data.success) {
                 setDoctors(data.doctors);
             } else {
@@ -29,6 +27,7 @@ const AppContextProvider = (props) => {
             toast.error(error.message);
         }
     };
+    
     
 
     // Getting User Profile using API

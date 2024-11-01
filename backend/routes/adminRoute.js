@@ -200,6 +200,6 @@ adminRouter.get("/all-doctors", authAdmin, allDoctors)
 adminRouter.get("/dashboard", authAdmin, AdminDashboard)
 
 
-adminRouter.delete("/delete-doctor", authAdmin, deleteDoctor)
+adminRouter.delete("/delete-doctor", deleteDoctor)
 
 export default adminRouter;

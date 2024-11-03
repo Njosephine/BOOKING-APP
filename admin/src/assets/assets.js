@@ -11,8 +11,10 @@ import tick_icon from './tick_icon.svg'
 import appointments_icon from './appointments_icon.svg'
 import earning_icon from './earning_icon.svg'
 import patients_icon from './patients_icon.svg'
+import message_icon from './message_icon.png'
 
 export const assets = {
+    message_icon,
     add_icon,
     logo,
     appointment_icon,

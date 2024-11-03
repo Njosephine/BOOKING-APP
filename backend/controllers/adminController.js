@@ -37,7 +37,7 @@ const loginAdmin = async (req, res) => {
 // Logic for fetching and retrning the appointment data for the admin
 const AppointmentsAdmin = async (req, res) => {
     try {
-         //await ensures that the fuction waits for all appointments to be returned before moving to the next step 
+         //await ensures that the function waits for all appointments to be returned before moving to the next step 
         const appointments = await AppointmentModel.find({})
         res.json({success: true, appointments})
     }catch (error) {
@@ -156,7 +156,7 @@ const AdminDashboard = async (req, res) =>{
         const dashData = {
             doctors: doctors.length,
             appointments: appointments.length,
-            patints: users.length,
+            patients: users.length,
             //reverses the appointments array to show the latest appointments
             latestAppointments: appointments.reverse()
         }

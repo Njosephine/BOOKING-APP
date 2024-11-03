@@ -14,6 +14,7 @@ const AdminContextProvider = (props) => {
     const [appointments, setAppointments] = useState([])
     const [doctors, setDoctors] = useState([])
     const [dashData, setDashData] = useState(false)
+    const [messages, setMessage] = useState([])
 
     // Getting all Doctors data from Database using API
     const getAllDoctors = async () => {
@@ -115,9 +116,11 @@ const AdminContextProvider = (props) => {
         try {
 
             const { data } = await axios.get(backendUrl + '/api/admin/dashboard', { headers: { aToken } })
+            
 
             if (data.success) {
                 setDashData(data.dashData)
+               
             } else {
                 toast.error(data.message)
             }
@@ -129,6 +132,21 @@ const AdminContextProvider = (props) => {
 
     }
 
+    const fetchMessages = async () => {
+        try {
+            const { data } = await axios.get(backendUrl + '/api/contact/message');
+            console.log(data); 
+            if (data.success) {
+                setMessage(data.messages);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+    
+
     const value = {
         aToken, setAToken,
         doctors,
@@ -139,7 +157,9 @@ const AdminContextProvider = (props) => {
         getDashData,
         deleteDoctor,
         cancelAppointment,
-        dashData
+        dashData,
+        messages,
+        fetchMessages 
     }
 
     return (

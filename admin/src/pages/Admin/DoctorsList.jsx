@@ -8,10 +8,10 @@ const DoctorsList = () => {
     if (aToken) {
       getAllDoctors()
     }
-  }, [aToken, getAllDoctors]) // Ensure getAllDoctors is included in the dependency array
+  }, [aToken, getAllDoctors]) 
 
   if (!doctors) {
-    return <div>Loading...</div>; // Render a loading state
+    return <div>Loading...</div>; 
   }
 
   return (

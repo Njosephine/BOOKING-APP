@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import DoctorAppointments from './pages/Doctor/DoctorAppointments';
 import DoctorDashboard from './pages/Doctor/DoctorDashboard';
 import DoctorProfile from './pages/Doctor/DoctorProfile';
+import AdminContactMessages from './pages/Admin/AdminContactMessage';
 
 const App = () => {
 
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='/doctor-dashboard' element={<DoctorDashboard />} />
           <Route path='/doctor-appointments' element={<DoctorAppointments />} />
           <Route path='/doctor-profile' element={<DoctorProfile />} />
+          <Route path='/message' element={< AdminContactMessages />} />
         </Routes>
       </div>
     </div>
@@ -45,5 +47,6 @@ const App = () => {
     </>
   )
 }
+
 
 export default App

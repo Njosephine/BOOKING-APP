@@ -22,7 +22,9 @@ import Pediatricians from './Pediatricians.svg'
 import contact_icon from './contact_icon.png'
 import clock from './clock.png'
 import location from './location.png'
+import upload_area from './upload_area.png'
 export const assets = {
+    upload_area,
     appoint,
     contact_icon ,
     clock,

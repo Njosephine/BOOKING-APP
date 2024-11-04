@@ -6,10 +6,11 @@ import { toast } from "react-toastify";
 export const AdminContext = createContext()
 
 const AdminContextProvider = (props) => {
+    //State initialization
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
-    const [aToken, setAToken] = useState(localStorage.getItem('aToken') ? localStorage.getItem('aToken') : '')
+    const [aToken, setAToken] = useState(localStorage.getItem('aToken') || '')
 
     const [appointments, setAppointments] = useState([])
     const [doctors, setDoctors] = useState([])
@@ -85,7 +86,7 @@ const AdminContextProvider = (props) => {
 
         } catch (error) {
             toast.error(error.message)
-            console.log(error)
+            
         }
 
     }
@@ -106,7 +107,7 @@ const AdminContextProvider = (props) => {
 
         } catch (error) {
             toast.error(error.message)
-            console.log(error)
+           
         }
 
     }
@@ -126,16 +127,18 @@ const AdminContextProvider = (props) => {
             }
 
         } catch (error) {
-            console.log(error)
+          
             toast.error(error.message)
         }
 
     }
 
+
+    //API for fetching patient messages from the backend 
     const fetchMessages = async () => {
         try {
             const { data } = await axios.get(backendUrl + '/api/contact/message');
-            console.log(data); 
+            
             if (data.success) {
                 setMessage(data.messages);
             } else {
@@ -148,7 +151,8 @@ const AdminContextProvider = (props) => {
     
 
     const value = {
-        aToken, setAToken,
+        aToken, 
+        setAToken,
         doctors,
         getAllDoctors,
         changeAvailability,

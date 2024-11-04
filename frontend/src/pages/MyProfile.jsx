@@ -52,7 +52,7 @@ const MyProfile = () => {
                 ? <label htmlFor='image' >
                     <div className='inline-block relative cursor-pointer'>
                         <img className='w-36 rounded opacity-75' src={image ? URL.createObjectURL(image) : userData.image} alt="" />
-                        <img className='w-10 absolute bottom-12 right-12' src={image ? '' : assets.upload_icon} alt="" />
+                        <img className='w-20 absolute bottom-1 right-1' src={image ? '' : assets.profile} alt="" />
                     </div>
                     <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" hidden />
                 </label>
@@ -64,7 +64,7 @@ const MyProfile = () => {
                 : <p className='font-medium text-3xl text-[#262626] mt-4'>{userData.name}</p>
             }
 
-            <hr className='bg-[#ADADAD] h-[1px] border-none' />
+           
 
             <div>
                 <p className='text-gray-600 underline mt-3'>CONTACT INFORMATION</p>

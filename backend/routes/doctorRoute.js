@@ -34,31 +34,22 @@ const doctorRouter = express.Router();
  *         description: Server error
  */
 
-doctorRouter.post("/login", loginDoctor);
+doctorRouter.post("/login",loginDoctor);
 /**
  * @swagger
  * /doctor/appointments:
  *   get:
- *     summary: Get doctor's appointments
- *     tags: [Doctors]
+ *     summary: Get all appointments
+ *     description: Retrieve all appointments for doctor management.
+ *     tags:
+ *       - Doctors
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: List of appointments
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 appointments:
- *                   type: array
- *                   items:
- *                     type: object
- *       500:
- *         description: Server error
+ *         description: A list of all appointments.
+ *       401:
+ *         description: Unauthorized access.
  */
 doctorRouter.get("/appointments", authDoctor, appointmentsDoctor);
 
@@ -84,8 +75,8 @@ doctorRouter.get("/appointments", authDoctor, appointmentsDoctor);
  *     responses:
  *       200:
  *         description: Appointment cancelled
- *       404:
- *         description: Appointment not found
+ *       401:
+ *         description: Unauthorized access
  *       500:
  *         description: Server error
  */
@@ -107,16 +98,26 @@ doctorRouter.post("/cancel-appointment", authDoctor, appointmentCancel);
  *             properties:
  *               docId:
  *                 type: string
+ *                 description: The ID of the doctor
  *               appointmentId:
  *                 type: string
+ *                 description: The ID of the appointment to be marked as completed
  *     responses:
  *       200:
  *         description: Appointment marked as completed
+ *         
  *       404:
  *         description: Appointment not found
+ *         
+ *       401:
+ *         description: Unauthorized access
+ *         
  *       500:
  *         description: Server error
+ *        
  */
+
+
 doctorRouter.post("/complete-appointment", authDoctor, appointmentComplete );
 
 /**

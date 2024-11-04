@@ -12,16 +12,16 @@ const loginDoctor = async (req, res) => {
         const user = await doctorModel.findOne({ email })
 
         if (!user) {
-            return res.json({ success: false, message: "Invalid credentials" })
+            return res.status(401).json({ success: false, message: "Invalid credentials" })
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
 
         if (isMatch) {
             const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-            res.json({ success: true, token })
+            res.status(200).json({ success: true, token })
         } else {
-            res.json({ success: false, message: "Invalid credentials" })
+            res.status(401).json({ success: false, message: "Invalid credentials" })
         }
 
 
@@ -36,13 +36,19 @@ const appointmentsDoctor = async (req, res) => {
     try {
 
         const { docId } = req.body
+
+        if (!docId) {
+            return res.status(401).json({ success: false, message: "Unathorized access" })
+        }
         const appointments = await AppointmentModel.find({ docId })
 
-        res.json({ success: true, appointments })
+        res.status(200).json({ success: true, appointments })
+
+     
 
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -55,10 +61,10 @@ const appointmentCancel = async (req, res) => {
         const appointmentData = await AppointmentModel.findById(appointmentId)
         if (appointmentData && appointmentData.docId === docId) {
             await AppointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
-            return res.json({ success: true, message: 'Appointment Cancelled' })
+            return res.status(200).json({ success: true, message: 'Appointment Cancelled' })
         }
 
-        res.json({ success: false, message: 'Appointment Cancelled' })
+        res.status(200).json({ success: false, message: 'Appointment Cancelled' })
 
     } catch (error) {
         console.log(error)

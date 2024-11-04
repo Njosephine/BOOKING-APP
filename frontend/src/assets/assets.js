@@ -1,7 +1,7 @@
 import appoint from './appoint.png'
 import group from './group.png'
 import group_profiles from './group_profiles.png'
-import profile_pic from './profile_pic.png'
+import profile from './profile.jpeg'
 import contact_us from './contact_us.avif'
 import doc3 from './doc3.png'
 import logo from './logo.png'
@@ -36,7 +36,7 @@ export const assets = {
     chats_icon,
     verified_icon,
     info_icon,
-    profile_pic,
+    profile,
     arrow_icon,
     contact_us,
     doc3,

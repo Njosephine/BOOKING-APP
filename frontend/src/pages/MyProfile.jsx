@@ -51,12 +51,12 @@ const MyProfile = () => {
             {isEdit
                 ? <label htmlFor='image' >
                     <div className='inline-block relative cursor-pointer'>
-                        <img className='w-36 rounded opacity-75' src={image ? URL.createObjectURL(image) : userData.image || assets.upload_area} alt="" />
-                        
+                        <img className='w-36 rounded opacity-75' src={image ? URL.createObjectURL(image) : userData.image} alt="" />
+                        <img className='w-20 absolute bottom-1 right-1' src={image ? '' : assets.profile} alt="" />
                     </div>
                     <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" hidden />
                 </label>
-                : <img className='w-36 rounded' src={userData.image || assets.upload_area} alt="" />
+                : <img className='w-36 rounded' src={userData.image} alt="" />
             }
 
             {isEdit
@@ -64,7 +64,7 @@ const MyProfile = () => {
                 : <p className='font-medium text-3xl text-[#262626] mt-4'>{userData.name}</p>
             }
 
-            
+           
 
             <div>
                 <p className='text-gray-600 underline mt-3'>CONTACT INFORMATION</p>
@@ -104,7 +104,7 @@ const MyProfile = () => {
                         : <p className='text-gray-500'>{userData.gender}</p>
                     }
 
-                    <p className='font-medium'>D.O.B:</p>
+                    <p className='font-medium'>Birthday:</p>
 
                     {isEdit
                         ? <input className='max-w-28 bg-gray-50' type='date' onChange={(e) => setUserData(prev => ({ ...prev, dob: e.target.value }))} value={userData.dob} />

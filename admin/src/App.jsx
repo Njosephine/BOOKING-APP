@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { DoctorContext } from './context/DoctorContext';
 import { AdminContext } from './context/AdminContext';
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar'
@@ -37,7 +37,7 @@ const App = () => {
           <Route path='/doctor-appointments' element={<DoctorAppointments />} />
           <Route path='/doctor-profile' element={<DoctorProfile />} />
           <Route path='/message' element={< AdminContactMessages />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/login' element={<Navigate to="/admin-dashboard" />} />
           
         </Routes>
       </div>
@@ -45,7 +45,7 @@ const App = () => {
   ) : (
     <>
       <ToastContainer />
-     
+      <Login />
     </>
   )
 }

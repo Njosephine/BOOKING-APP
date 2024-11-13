@@ -27,7 +27,7 @@ const App = () => {
       <div className='flex items-start'>
         <Sidebar />
         <Routes>
-          <Route path='/' element={<Navigate to="/admin-dashboard" />} /> {/* Redirect to dashboard */}
+          <Route path='/' element={<Navigate to="/login" />} /> {/* Redirect to dashboard */}
           <Route path='/admin-dashboard' element={<Dashboard />} />
           <Route path='/all-appointments' element={<AllAppointments />} />
           <Route path='/add-doctor' element={<AddDoctor />} />
@@ -36,17 +36,14 @@ const App = () => {
           <Route path='/doctor-appointments' element={<DoctorAppointments />} />
           <Route path='/doctor-profile' element={<DoctorProfile />} />
           <Route path='/message' element={<AdminContactMessages />} />
-          <Route path='/login' element={<Navigate to="/admin-dashboard" />} /> {/* Redirect if authenticated */}
+          <Route path='/login' element={<Login />} /> 
         </Routes>
       </div>
     </div>
   ) : (
     <>
       <ToastContainer />
-      <Routes>
-        <Route path='/login' element={<Login />} /> {/* Render Login if not authenticated */}
-        <Route path='*' element={<Navigate to="/login" />} /> {/* Redirect all other paths to login */}
-      </Routes>
+     
     </>
   );
 };

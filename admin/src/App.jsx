@@ -37,6 +37,7 @@ const App = () => {
           <Route path='/doctor-appointments' element={<DoctorAppointments />} />
           <Route path='/doctor-profile' element={<DoctorProfile />} />
           <Route path='/message' element={< AdminContactMessages />} />
+          <Route path='/login' element={<Navigate to="/admin-dashboard" />} />
           
         </Routes>
       </div>
@@ -44,7 +45,7 @@ const App = () => {
   ) : (
     <>
       <ToastContainer />
-      <Login />
+     
     </>
   )
 }

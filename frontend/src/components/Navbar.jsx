@@ -43,7 +43,7 @@ const Navbar = () => {
         </NavLink>
         {showAdminPanel && (
           <button
-          onClick={() => window.location.href = process.env.REACT_APP_ADMIN_PANEL_URL}
+          onClick={() => window.location.href ='https://medicare2.onrender.com'}
             className='bg-primary text-white px-4 py-2 rounded-full'> Admin Panel
           </button>
         )}
@@ -80,7 +80,7 @@ const Navbar = () => {
             <NavLink onClick={() => setShowMenu(false)} to='/contact' ><p className='px-4 py-2 rounded full inline-block'>CONTACT</p></NavLink>
             {showAdminPanel && (
               <button
-              onClick={() => window.location.href = process.env.REACT_APP_ADMIN_PANEL_URL}
+              onClick={() => window.location.href = 'https://medicare2.onrender.com'}
                 className='bg-primary text-white px-4 py-2 rounded-full'> Admin Panel
               </button>
             )}

@@ -13,12 +13,12 @@ const Navbar = () => {
     localStorage.removeItem('token')
     setToken(false)
     setShowAdminPanel(true)
-    navigate('/Login')
+    navigate('/')
   }
 
   const handleCreateAccountClick = () => {
     setShowAdminPanel(false)
-    navigate('/Login')
+    navigate('/')
   }
 
   return (

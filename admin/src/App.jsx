@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { DoctorContext } from './context/DoctorContext';
 import { AdminContext } from './context/AdminContext';
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Admin/Dashboard';
 import AllAppointments from './pages/Admin/AllAppointments';
 import AddDoctor from './pages/Admin/AddDoctor';
@@ -17,9 +17,8 @@ import DoctorProfile from './pages/Doctor/DoctorProfile';
 import AdminContactMessages from './pages/Admin/AdminContactMessage';
 
 const App = () => {
-
-  const { dToken } = useContext(DoctorContext)
-  const { aToken } = useContext(AdminContext)
+  const { dToken } = useContext(DoctorContext);
+  const { aToken } = useContext(AdminContext);
 
   return dToken || aToken ? (
     <div className='bg-[#F8F9FD]'>
@@ -28,7 +27,7 @@ const App = () => {
       <div className='flex items-start'>
         <Sidebar />
         <Routes>
-          <Route path='/' element={<></>} />
+          <Route path='/' element={<Navigate to="/admin-dashboard" />} /> {/* Redirect to dashboard */}
           <Route path='/admin-dashboard' element={<Dashboard />} />
           <Route path='/all-appointments' element={<AllAppointments />} />
           <Route path='/add-doctor' element={<AddDoctor />} />
@@ -36,19 +35,20 @@ const App = () => {
           <Route path='/doctor-dashboard' element={<DoctorDashboard />} />
           <Route path='/doctor-appointments' element={<DoctorAppointments />} />
           <Route path='/doctor-profile' element={<DoctorProfile />} />
-          <Route path='/message' element={< AdminContactMessages />} />
-          <Route path='/login' element={<Navigate to="/admin-dashboard" />} />
-          
+          <Route path='/message' element={<AdminContactMessages />} />
+          <Route path='/login' element={<Navigate to="/admin-dashboard" />} /> {/* Redirect if authenticated */}
         </Routes>
       </div>
     </div>
   ) : (
     <>
       <ToastContainer />
-      <Login />
+      <Routes>
+        <Route path='/login' element={<Login />} /> {/* Render Login if not authenticated */}
+        <Route path='*' element={<Navigate to="/login" />} /> {/* Redirect all other paths to login */}
+      </Routes>
     </>
-  )
-}
+  );
+};
 
-
-export default App
+export default App;
